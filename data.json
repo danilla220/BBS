@@ -1,0 +1,14 @@
+{
+  "movies": [
+    { "name": "Мой первый проект", "path": "movie/project1.mp4", "date": "13.04.2026", "size": "150 MB" }
+  ],
+  "mods": [
+    { "name": "SuperMod", "path": "mods/supermod.jar", "date": "10.04.2026", "size": "2 MB" }
+  ],
+  "models": [
+    { "name": "AK47", "path": "skins/steve.png", "date": "12.04.2026", "size": "50 KB" }
+  ],
+  "skins": [
+    { "name": "SteveCustom", "path": "skins/steve.png", "date": "12.04.2026", "size": "50 KB" }
+  ]
+}
