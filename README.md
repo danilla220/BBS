@@ -1,2 +1,1 @@
-# BBS
-BBS Protect Studio 
+Erstellt mit Hilfe von BBS Protect Inn. Im Auftrag @NiemandGE
