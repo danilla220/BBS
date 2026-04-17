@@ -1,0 +1,323 @@
+<?php
+// Конфигурация — просто подставьте свои ссылки
+$author_name = "Твоё Имя";
+$telegram_link = "https://t.me/your_telegram";
+$vk_link = "https://vk.com/your_vk";
+$discord_link = "https://discord.gg/your_invite";
+?>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Связь с автором | <?= htmlspecialchars($author_name) ?></title>
+    <!-- Шрифты Google -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600&display=swap" rel="stylesheet">
+    <!-- Font Awesome 6 (бесплатные иконки) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: radial-gradient(circle at 20% 30%, #1e2a3a, #0b0f14);
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            color: #ffffff;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Декоративные размытые круги для глубины */
+        .bg-blur {
+            position: fixed;
+            width: 60vmax;
+            height: 60vmax;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(100, 150, 255, 0.25), transparent 70%);
+            filter: blur(80px);
+            z-index: -1;
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        .bg-blur-1 {
+            top: -20%;
+            left: -10%;
+            background: radial-gradient(circle, #3f5f9f, transparent 70%);
+        }
+
+        .bg-blur-2 {
+            bottom: -20%;
+            right: -10%;
+            background: radial-gradient(circle, #9f5f9f, transparent 70%);
+        }
+
+        /* Основная карточка — стекло */
+        .glass-card {
+            max-width: 720px;
+            width: 100%;
+            background: rgba(20, 28, 40, 0.45);
+            backdrop-filter: blur(16px) saturate(180%);
+            -webkit-backdrop-filter: blur(16px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 48px;
+            padding: 3rem 2.5rem;
+            box-shadow: 0 25px 40px -12px rgba(0, 0, 0, 0.5), 
+                        0 0 0 1px rgba(255, 255, 255, 0.02) inset;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-align: center;
+        }
+
+        .glass-card:hover {
+            box-shadow: 0 30px 50px -16px #00000080, 0 0 0 1px rgba(255, 255, 255, 0.08) inset;
+            transform: translateY(-5px);
+        }
+
+        /* Аватар / иконка */
+        .avatar {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 1.5rem;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 12px 20px -8px rgba(0, 0, 0, 0.3);
+        }
+
+        .avatar i {
+            font-size: 3.8rem;
+            color: rgba(220, 240, 255, 0.9);
+            filter: drop-shadow(0 4px 6px #00000040);
+        }
+
+        h1 {
+            font-weight: 600;
+            font-size: 2.5rem;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #ffffff, #c0d4ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 2px 10px rgba(0, 20, 80, 0.3);
+        }
+
+        .subhead {
+            font-size: 1.1rem;
+            font-weight: 400;
+            opacity: 0.8;
+            margin-bottom: 2.5rem;
+            color: #ccddf8;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: inline-block;
+            padding-bottom: 0.75rem;
+        }
+
+        /* Сетка контактов */
+        .contacts-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin: 2rem 0 1.5rem;
+        }
+
+        /* Стеклянные кнопки соцсетей */
+        .contact-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1.8rem 0.8rem;
+            border-radius: 28px;
+            background: rgba(18, 28, 40, 0.35);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-decoration: none;
+            color: #ffffff;
+            transition: all 0.25s cubic-bezier(0.2, 0, 0, 1);
+            box-shadow: 0 10px 18px -10px rgba(0, 0, 0, 0.4);
+        }
+
+        .contact-link i {
+            font-size: 2.8rem;
+            margin-bottom: 12px;
+            filter: drop-shadow(0 6px 8px #00000030);
+            transition: transform 0.2s;
+        }
+
+        .contact-link span {
+            font-weight: 500;
+            font-size: 1.1rem;
+            letter-spacing: 0.3px;
+        }
+
+        .contact-link small {
+            font-size: 0.8rem;
+            opacity: 0.65;
+            margin-top: 6px;
+        }
+
+        /* Эффекты при наведении */
+        .contact-link:hover {
+            background: rgba(45, 65, 95, 0.45);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            transform: scale(1.02) translateY(-6px);
+            box-shadow: 0 24px 28px -12px #000000b0, 0 0 15px rgba(100, 170, 255, 0.3);
+        }
+
+        .contact-link:hover i {
+            transform: scale(1.05);
+        }
+
+        /* Индивидуальные оттенки при наведении */
+        .contact-link[data-type="telegram"]:hover {
+            background: rgba(36, 120, 200, 0.25);
+            border-color: rgba(100, 180, 255, 0.5);
+        }
+        .contact-link[data-type="vk"]:hover {
+            background: rgba(70, 120, 200, 0.25);
+            border-color: rgba(130, 180, 255, 0.5);
+        }
+        .contact-link[data-type="discord"]:hover {
+            background: rgba(88, 101, 242, 0.25);
+            border-color: rgba(150, 170, 255, 0.5);
+        }
+
+        /* Футер */
+        .footer-note {
+            margin-top: 2.5rem;
+            font-size: 0.85rem;
+            opacity: 0.5;
+            color: #b0c7e7;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 560px) {
+            .glass-card {
+                padding: 2rem 1.5rem;
+                border-radius: 36px;
+            }
+            h1 {
+                font-size: 2rem;
+            }
+            .contacts-grid {
+                gap: 1rem;
+            }
+            .contact-link {
+                padding: 1.2rem 0.3rem;
+                border-radius: 24px;
+            }
+            .contact-link i {
+                font-size: 2.2rem;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .contacts-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            .contact-link {
+                flex-direction: row;
+                justify-content: center;
+                gap: 20px;
+                padding: 1rem 1.5rem;
+            }
+            .contact-link i {
+                margin-bottom: 0;
+                font-size: 2rem;
+            }
+        }
+
+        /* Дополнительная подсветка текста */
+        .highlight {
+            font-weight: 500;
+            color: #d6e5ff;
+        }
+
+        /* Анимация появления */
+        @keyframes fadeGlass {
+            0% { opacity: 0; backdrop-filter: blur(0); transform: translateY(20px); }
+            100% { opacity: 1; backdrop-filter: blur(16px); transform: translateY(0); }
+        }
+        .glass-card {
+            animation: fadeGlass 0.7s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <!-- Фоновые размытые элементы -->
+    <div class="bg-blur bg-blur-1"></div>
+    <div class="bg-blur bg-blur-2"></div>
+
+    <main class="glass-card">
+        <!-- Аватар / иконка автора -->
+        <div class="avatar">
+            <i class="fas fa-user-astronaut"></i>
+        </div>
+        
+        <h1><?= htmlspecialchars($author_name) ?></h1>
+        <div class="subhead">связь в один клик</div>
+        
+        <p style="margin-bottom: 0.8rem; opacity: 0.85;">
+            <i class="fas fa-paper-plane" style="margin-right: 8px; opacity: 0.7;"></i>
+            Выберите удобную платформу
+        </p>
+
+        <!-- Контактные ссылки -->
+        <div class="contacts-grid">
+            <!-- Telegram -->
+            <a href="<?= htmlspecialchars($telegram_link) ?>" class="contact-link" data-type="telegram" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-telegram-plane"></i>
+                <span>Telegram</span>
+                <small>@username</small>
+            </a>
+            <!-- VK -->
+            <a href="<?= htmlspecialchars($vk_link) ?>" class="contact-link" data-type="vk" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-vk"></i>
+                <span>ВКонтакте</span>
+                <small>vk.com/...</small>
+            </a>
+            <!-- Discord -->
+            <a href="<?= htmlspecialchars($discord_link) ?>" class="contact-link" data-type="discord" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-discord"></i>
+                <span>Discord</span>
+                <small>сервер / личка</small>
+            </a>
+        </div>
+
+        <!-- Краткая подпись или статус -->
+        <div style="margin-top: 1.2rem; font-size: 0.95rem; opacity: 0.7;">
+            <i class="far fa-comment-dots"></i> отвечаю обычно в течение дня
+        </div>
+
+        <div class="footer-note">
+            © <?= date('Y') ?> <?= htmlspecialchars($author_name) ?> · стеклянный дизайн
+        </div>
+    </main>
+
+    <!-- Небольшой скрипт для плавности (опционально) -->
+    <script>
+        (function() {
+            // Можно добавить микро-взаимодействия, например, звук? не нужно.
+            // Просто убедимся, что ссылки работают ожидаемо.
+            console.log('✨ Стеклянная страница связи готова');
+        })();
+    </script>
+</body>
+</html>
